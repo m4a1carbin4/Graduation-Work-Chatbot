@@ -49,7 +49,7 @@ class Dataset:
         return np.array(embed_dataset,dtype=object)[:, question_index].tolist()
         # label말고 question 부분만 리턴하기 (gensim 임베딩은 라벨 필요 X)
 
-    def load_intent(self, emb_processor: BaseProcessor) -> tuple:
+    def load_intent(self):
         """
         인텐트 프로세서 학습용 데이터를 생성합니다.
         :param emb_processor: 임베딩 과정이 들어가므로 임베딩 프로세서를 입력해야합니다.
@@ -57,8 +57,7 @@ class Dataset:
         """
 
         intent_dataset = pd.read_csv(self.intent_data_dir)
-        intent_train, intent_test = self.__make_intent(intent_dataset, emb_processor)
-        intent_train, intent_test = self.__mini_batch(intent_train), self.__mini_batch(intent_test)
+        intent_train, intent_test = self.__make_intent(intent_dataset)
         
         return intent_train, intent_test
 
@@ -91,7 +90,7 @@ class Dataset:
         text, _ = self.prep.pad_sequencing(text)  # 패드 시퀀싱
         return text.unsqueeze(0).to(self.device)  # 차원 증가 (batch_size = 1)
 
-    def __make_intent(self, intent_dataset: DataFrame, emb_processor: BaseProcessor) -> tuple:
+    def __make_intent(self, intent_dataset: DataFrame) -> tuple:
         """
         인텐트 데이터셋을 만드는 세부 과정입니다.
         - 라벨을 숫자로 맵핑합니다.
@@ -105,15 +104,9 @@ class Dataset:
         """
 
         intent_dataset = self.__map_label(intent_dataset, 'intent')
-        intent_dataset = self.__tokenize_dataset(intent_dataset)
         train, test = self.__split_data(intent_dataset)
 
-        train_question, train_label, train_length = self.__embedding(train, emb_processor)
-        test_question, test_label, test_length = self.__embedding(test, emb_processor)
-
-        train_tensors = self.__list2tensor(train_question, train_label, train_length)
-        test_tensors = self.__list2tensor(test_question, test_label, test_length)
-        return train_tensors, test_tensors
+        return train, test
 
     def __make_entity(self, entity_dataset: DataFrame, emb_processor: BaseProcessor) -> tuple:
         """

@@ -1,2 +1,5 @@
 __pycache__/
 repo/
+.cache/
+Chat_bot/
+venv/

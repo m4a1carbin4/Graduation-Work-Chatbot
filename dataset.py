@@ -78,7 +78,7 @@ class Dataset:
 
         entity_dataset = pd.read_csv(self.entity_data_dir)
         entity_train, entity_test ,train_label, test_label= self.__make_entity(entity_dataset, emb_processor)
-        return self.__mini_batch(entity_train), self.__mini_batch(entity_test) , train_label, test_label
+        return self.__mini_batch(entity_train), self.__mini_batch(entity_test)
 
     def load_predict(self, text: str, emb_processor: BaseProcessor) -> Tensor:
         """

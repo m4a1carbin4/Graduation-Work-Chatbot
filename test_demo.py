@@ -10,8 +10,11 @@ from Word_embedder import Embedder
 import pandas as pd
 
 from intent_classification import BERT, BERTClassifier
-from NER_train import Trainer
-from NER_model import NER_BERT
+
+from NER_Classifier import EntityRecognizer
+from crfloss import CRFLoss
+from NER_LSTM import LSTM
+
 
 # from scenario import dust, weather, travel, restaurant
 # 에러 나면 이걸로 실행해보세요!
@@ -30,10 +33,6 @@ class Word2Vec(Word2Vec):
                          min_count=self.min_count)
 
 dataset = Dataset()
-
-print(dataset.intent_dict)
-
-print(dataset.entity_dict)
 
 data_emb = dataset.load_embed()
 
@@ -58,17 +57,14 @@ data = pd.DataFrame(data)
 
 #print(result)
 
-NER_data = dataset.load_entity_bert()
-"""
-NER = NER_BERT(NER_data,dataset.entity_dict)
+entity = EntityRecognizer(
+    model=LSTM(dataset.entity_dict),
+    loss=CRFLoss(dataset.entity_dict)
+)
 
-NER.train()
-ent_train, ent_test ,train_label, test_label = dataset.load_entity(embed)
-"""
-ner = Trainer(NER_data,dataset.entity_dict)
+entity.fit(dataset.load_entity(embed))
 
-ner.train()
+prep = dataset.load_predict("오늘 서울 날씨 알려줘", embed)
+entity = entity.predict(prep)
 
-#print(data_emb)
-
-#embed.fit(data_emb)
+print(entity)

@@ -44,7 +44,7 @@ class BERTClassifier(nn.Module):
     def __init__(self,
                  bert,
                  hidden_size = 768,
-                 num_classes = 3, # softmax 사용 <- binary일 경우는 2
+                 num_classes = 4, # softmax 사용 <- binary일 경우는 2
                  dr_rate=None,
                  params=None):
         super(BERTClassifier, self).__init__()
@@ -77,29 +77,20 @@ class BERT():
         self.bertmodel, self.vocab = get_pytorch_kobert_model()
         self.train = train
         self.test = test
+        
+        self.model = BERTClassifier(self.bertmodel, dr_rate=0.5).to(self.device)
+        self.tokenizer = get_tokenizer()
+        self.tok = nlp.data.BERTSPTokenizer(self.tokenizer, self.vocab, lower=False)
 
-    def fit(self):
+    def data_set(self):
 
-        tokenizer = get_tokenizer()
-        tok = nlp.data.BERTSPTokenizer(tokenizer, self.vocab, lower=False)
-
-        self.max_len = 128 # 해당 길이를 초과하는 단어에 대해선 bert가 학습하지 않음
-        self.batch_size = 128
-        self.warmup_ratio = 0.1
-        self.num_epochs = 5
-        self.max_grad_norm = 1
-        self.log_interval = 200
-        self.learning_rate = 5e-5
-
-        data_train = BERTDataset(self.train, 0, 1, tok, self.max_len, True, False)
-        data_test = BERTDataset(self.test, 0, 1, tok, self.max_len, True, False)
+        data_train = BERTDataset(self.train, 0, 1, self.tok, self.max_len, True, False)
+        data_test = BERTDataset(self.test, 0, 1, self.tok, self.max_len, True, False)
 
         self.train_dataloader = torch.utils.data.DataLoader(data_train, batch_size=self.batch_size, num_workers=5)
         self.test_dataloader = torch.utils.data.DataLoader(data_test, batch_size=self.batch_size, num_workers=5)
     
     def train_model(self):
-
-        self.model = BERTClassifier(self.bertmodel, dr_rate=0.5).to(self.device)
 
         # Prepare optimizer and schedule (linear warmup and decay)
         no_decay = ['bias', 'LayerNorm.weight']
@@ -179,12 +170,41 @@ class BERT():
                 logits = logits.detach().cpu().numpy()
 
                 if np.argmax(logits) == 0:
-                    test_eval.append("hate")
+                    test_eval.append("0")
                 elif np.argmax(logits) == 1:
-                    test_eval.append("none")
+                    test_eval.append("1")
                 elif np.argmax(logits) == 2:
-                    test_eval.append("offensive")
+                    test_eval.append("2")
+                elif np.argmax(logits) == 3:
+                    test_eval.append("3")
+                """
+                elif np.argmax(logits) == 4:
+                    test_eval.append("4")
+                elif np.argmax(logits) == 5:
+                    test_eval.append("5")
+                elif np.argmax(logits) == 6:
+                    test_eval.append("6")
+                elif np.argmax(logits) == 7:
+                    test_eval.append("7")
+                elif np.argmax(logits) == 8:
+                    test_eval.append("8")
+                elif np.argmax(logits) == 9:
+                    test_eval.append("9")
+                """
 
             print(">> result of input sentence :  " + test_eval[0])
 
         return test_eval[0]
+
+    def save_model(self):
+        if not os.path.exists(self.model_dir):
+            os.makedirs(self.model_dir)
+        torch.save(self.model.state_dict(), self.model_file + '.pt')
+    
+    def load_model(self):
+        if not os.path.exists(self.model_dir):
+            raise Exception("모델을 불러올 수 없습니다.")
+        if not self.model_loaded:
+            self.model_loaded = True
+            self.model.load_state_dict(torch.load(self.model_file + '.pt'))
+        

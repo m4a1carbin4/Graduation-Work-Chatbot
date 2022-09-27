@@ -9,7 +9,9 @@ from decorators import gensim
 from Word_embedder import Embedder
 import pandas as pd
 
-from intent_classification import BERT
+from intent_classification import BERT, BERTClassifier
+from NER_train import Trainer
+from NER_model import NER_BERT
 
 # from scenario import dust, weather, travel, restaurant
 # 에러 나면 이걸로 실행해보세요!
@@ -37,28 +39,40 @@ data_emb = dataset.load_embed()
 
 intent_train, intent_test = dataset.load_intent()
 
-train = pd.DataFrame(intent_train)
-test = pd.DataFrame(intent_test)
+embed = Embedder(model = Word2Vec(data_emb))
 
-train.to_csv("train.scv")
-test.to_csv("test.csv")
+#bert = BERT(intent_train,intent_test)
+
+#bert.fit()
+
+#bert.train_model()
+
+#bert.load_model()
+"""
+data = ['오늘의 서울 날씨 알려줘', '0']
+data = [data]
+data = pd.DataFrame(data)
+"""
+
+#result = bert.predict(data)
+
+#print(result)
+NER_data = dataset.load_entity_bert()
+
+NER = NER_BERT(NER_data,dataset.entity_dict)
+
+NER.train()
 
 
 
 """
-embed = Embedder(model = Word2Vec(data_emb))
+ent_train, ent_test ,train_label, test_label = dataset.load_entity(embed)
 
-bert = BERT(intent_train,intent_test)
+ner = Trainer(ent_train, ent_test ,train_label, test_label)
 
-bert.fit()
-
-bert.train_model()
+ner.train()
+"""
 
 #print(data_emb)
 
 #embed.fit(data_emb)
-
-prep = dataset.load_predict("내일 서울 날씨 어떄?",embed)
-
-print(prep)
-"""

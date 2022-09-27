@@ -3,3 +3,6 @@ repo/
 .cache/
 Chat_bot/
 venv/
+saved/
+koBERT_test.pt
+KoBERT_model_state_dict.pt

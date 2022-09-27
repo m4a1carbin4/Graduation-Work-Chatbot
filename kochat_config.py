@@ -62,42 +62,17 @@ GENSIM = {
 }
 
 INTENT = {
-    'model_lr': 1e-4,  # 인텐트 학습시 사용되는 러닝레이트
-    'loss_lr': 1e-2,  # 인텐트 학습시 사용되는 러닝레이트
-    'weight_decay': 1e-4,  # 인텐트 학습시 사용되는 가중치 감쇠 정도
-    'epochs': 300,  # 인텐트 학습 횟수
-    'd_model': 512,  # 인텐트 모델의 차원
-    'd_loss': 32,  # 인텐트 로스의 차원 (시각화차원, 높을수록 ood 디텍션이 정확해지지만 느려집니다.)
-    'layers': 1,  # 인텐트 모델의 히든 레이어(층)의 수
-    'grid_search': True,  # KNN과 Fallback Detector 학습시 그리드 서치 여부
 
-    'lr_scheduler_factor': 0.75,  # 러닝레이트 스케줄러 감소율
-    'lr_scheduler_patience': 10,  # 러닝레이트 스케줄러 감소 에폭
-    'lr_scheduler_min_lr': 1e-12,  # 최소 러닝레이트
-    'lr_scheduler_warm_up': 100,  # 러닝레이트 감소 시작시점
+    'max_len' : 128, # 해당 길이를 초과하는 단어에 대해선 bert가 학습하지 않음
+    'batch_size' : 128,
+    'warmup_ratio' : 0.1,
+    'num_epochs' : 5,
+    'max_grad_norm' : 1,
+    'log_interval' : 200,
+    'learning_rate' : 5e-5,
 
-    # auto를 쓰려면 ood dataset을 함께 넣어줘야합니다.
-    'distance_fallback_detection_criteria': 'auto',  # [auto, min, mean], auto는 OOD 데이터 있을때만 가능
-    'distance_fallback_detection_threshold': -1,  # mean 혹은 min 선택시 임계값
-    'softmax_fallback_detection_criteria': 'auto',  # [auto, other], auto는 OOD 데이터 있을때만 가능
-    'softmax_fallback_detection_threshold': -1,  # other 선택시 fallback이 되지 않는 최소 값
+    'model_dir' : BASE['root_dir'] + "saved{_}".format(_=_)
 
-    # 그리드 서치를 사용하지 않을때 KNN의 K값
-    'num_neighbors': 10,
-
-    # 그리드 서치를 사용할 때의 파라미터 목록
-    'dist_param': {
-        'n_neighbors': list(range(5, 15)),  # K값 범위 설정
-        'weights': ["uniform"],  # ['uniform', 'distance']
-        'p': [2],  # [1, 2] (맨하튼 vs 유클리디언)
-        'algorithm': ['ball_tree']  # ['ball_tree', 'kd_tree']
-    },
-
-    # 폴백 디텍터 후보 (선형 모델을 추천합니다)
-    'fallback_detectors': [
-        LogisticRegression(max_iter=30000),
-        LinearSVC(max_iter=30000)
-    ]
 }
 
 ENTITY = {

@@ -1,3 +1,4 @@
+from cgi import test
 import os
 import random
 
@@ -61,6 +62,13 @@ class Dataset:
         
         return intent_train, intent_test
 
+    def load_entity_bert(self):
+        entity_dataset = pd.read_csv(self.entity_data_dir)
+
+        entity_dataset.columns = ['str','label']
+
+        return entity_dataset
+
     def load_entity(self, emb_processor: BaseProcessor) -> tuple:
         """
         엔티티 프로세서 학습용 데이터를 생성합니다.
@@ -69,8 +77,8 @@ class Dataset:
         """
 
         entity_dataset = pd.read_csv(self.entity_data_dir)
-        entity_train, entity_test = self.__make_entity(entity_dataset, emb_processor)
-        return self.__mini_batch(entity_train), self.__mini_batch(entity_test)
+        entity_train, entity_test ,train_label, test_label= self.__make_entity(entity_dataset, emb_processor)
+        return self.__mini_batch(entity_train), self.__mini_batch(entity_test) , train_label, test_label
 
     def load_predict(self, text: str, emb_processor: BaseProcessor) -> Tensor:
         """
@@ -135,7 +143,7 @@ class Dataset:
 
         train_tensors = self.__list2tensor(train_question, train_label, train_length)
         test_tensors = self.__list2tensor(test_question, test_label, test_length)
-        return train_tensors, test_tensors
+        return train_tensors, test_tensors ,train_label, test_label
 
     def __map_label(self, dataset: DataFrame, kinds: str) -> list:
         """

@@ -57,21 +57,17 @@ data = pd.DataFrame(data)
 #result = bert.predict(data)
 
 #print(result)
-NER_data = dataset.load_entity_bert()
 
+NER_data = dataset.load_entity_bert()
+"""
 NER = NER_BERT(NER_data,dataset.entity_dict)
 
 NER.train()
-
-
-
-"""
 ent_train, ent_test ,train_label, test_label = dataset.load_entity(embed)
-
-ner = Trainer(ent_train, ent_test ,train_label, test_label)
+"""
+ner = Trainer(NER_data,dataset.entity_dict)
 
 ner.train()
-"""
 
 #print(data_emb)
 

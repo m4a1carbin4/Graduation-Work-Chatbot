@@ -6,7 +6,7 @@ from tqdm import tqdm, trange
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
-from transformers import AdamW, get_linear_schedule_with_warmup
+from transformers import AdamW, get_linear_schedule_with_warmup, BertTokenizer
 
 from NER_utils import compute_metrics, get_labels, get_test_texts, show_report, MODEL_CLASSES
 
@@ -14,11 +14,9 @@ logger = logging.getLogger(__name__)
 
 class Trainer(object):
     
-    def __init__(self,train_dataloader=None,test_datalodaer=None,train_label=None,test_label=None,**kwargs):
+    def __init__(self,dataset,label,**kwargs):
 
         self.model_dir = '/NER'
-        self.train_dl = train_dataloader
-        self.test_dl = test_datalodaer
 
         self.seed = kwargs.get('seed',42)
         self.train_batch_size = kwargs.get('train_batch_size',32)
@@ -35,12 +33,17 @@ class Trainer(object):
 
         self.logging_steps = kwargs.get('logging_steps',1000)
         self.save_steps = kwargs.get('save_steps', 1000)
+        
 
-        self.train_label_lst = train_label
-        self.test_label_lst = test_label
+        self.train_data_sentence = [sent.split() for sent in dataset['str'].values]
+        self.train_data_label = [tag.split() for tag in dataset['label'].values]
 
-        self.train_num = len(self.train_label_lst)
-        self.test_num = len(self.test_label_lst)
+        self.labels = [k for k in label.keys()]
+
+        self.tag_to_index = {tag: index for index, tag in enumerate(self.labels)}
+        self.index_to_tag = {index: tag for index, tag in enumerate(self.labels)}
+
+        self.train_num = len(self.train_data_sentence)
 
         self.pad_token_label_id = torch.nn.CrossEntropyLoss().ignore_index
 
@@ -48,18 +51,76 @@ class Trainer(object):
 
         self.config = self.config_class.from_pretrained('monologg/kobert')
         self.model = self.model_class.from_pretrained('monologg/kobert', config=self.config)
+        self.tokenizer = BertTokenizer.from_pretrained("klue/bert-base")
+
+        self.train_dataset = self.convert_examples_to_features(self.train_data_sentence, self.train_data_label, max_seq_len=128, tokenizer=self.tokenizer)
 
         # GPU or CPU
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.model.to(self.device)
 
+    def convert_examples_to_features(self,examples, labels, max_seq_len, tokenizer,
+                                 pad_token_id_for_segment=0, pad_token_id_for_label=-100):
+        cls_token = tokenizer.cls_token
+        sep_token = tokenizer.sep_token
+        pad_token_id = tokenizer.pad_token_id
+
+        input_ids, attention_masks, token_type_ids, data_labels = [], [], [], []
+
+        for example, label in tqdm(zip(examples, labels), total=len(examples)):
+            tokens = []
+            labels_ids = []
+            for one_word, label_token in zip(example, label):
+                subword_tokens = tokenizer.tokenize(one_word)
+                tokens.extend(subword_tokens)
+                labels_ids.extend([self.tag_to_index[label_token]]+ [pad_token_id_for_label] * (len(subword_tokens) - 1))
+
+            special_tokens_count = 2
+            if len(tokens) > max_seq_len - special_tokens_count:
+                tokens = tokens[:(max_seq_len - special_tokens_count)]
+                labels_ids = labels_ids[:(max_seq_len - special_tokens_count)]
+
+            tokens += [sep_token]
+            labels_ids += [pad_token_id_for_label]
+            tokens = [cls_token] + tokens
+            labels_ids = [pad_token_id_for_label] + labels_ids
+
+            input_id = tokenizer.convert_tokens_to_ids(tokens)
+            attention_mask = [1] * len(input_id)
+            padding_count = max_seq_len - len(input_id)
+
+            input_id = input_id + ([pad_token_id] * padding_count)
+            attention_mask = attention_mask + ([0] * padding_count)
+            token_type_id = [pad_token_id_for_segment] * max_seq_len
+            label = labels_ids + ([pad_token_id_for_label] * padding_count)
+
+            assert len(input_id) == max_seq_len, "Error with input length {} vs {}".format(len(input_id), max_seq_len)
+            assert len(attention_mask) == max_seq_len, "Error with attention mask length {} vs {}".format(len(attention_mask), max_seq_len)
+            assert len(token_type_id) == max_seq_len, "Error with token type length {} vs {}".format(len(token_type_id), max_seq_len)
+            assert len(label) == max_seq_len, "Error with labels length {} vs {}".format(len(label), max_seq_len)
+
+            input_ids.append(input_id)
+            attention_masks.append(attention_mask)
+            token_type_ids.append(token_type_id)
+            data_labels.append(label)
+
+        input_ids = np.array(input_ids, dtype=int)
+        attention_masks = np.array(attention_masks, dtype=int)
+        token_type_ids = np.array(token_type_ids, dtype=int)
+        data_labels = np.asarray(data_labels, dtype=np.int32)
+
+        return (input_ids, attention_masks, token_type_ids, data_labels)
+
     def train(self):
+
+        train_sampler = RandomSampler(self.train_dataset)
+        train_dataloader = DataLoader(self.train_dataset, sampler=train_sampler, batch_size=self.train_batch_size)
 
         if self.max_steps > 0:
             t_total = self.max_steps
-            self.num_train_epochs = self.max_steps // (len(self.train_dl) // self.gradient_accumulation_steps) + 1
+            self.num_train_epochs = self.max_steps // (len(train_dataloader) // self.gradient_accumulation_steps) + 1
         else:
-            t_total = len(self.train_dl) // self.gradient_accumulation_steps * self.num_train_epochs
+            t_total = len(train_dataloader) // self.gradient_accumulation_steps * self.num_train_epochs
 
         # Prepare optimizer and schedule (linear warmup and decay)
         no_decay = ['bias', 'LayerNorm.weight']
@@ -73,7 +134,7 @@ class Trainer(object):
 
         # Train!
         logger.info("***** Running training *****")
-        logger.info("  Num examples = %d", len(self.train_dl))
+        logger.info("  Num examples = %d", len(train_dataloader))
         logger.info("  Num Epochs = %d", self.num_train_epochs)
         logger.info("  Total train batch size = %d", self.train_batch_size)
         logger.info("  Gradient Accumulation steps = %d", self.gradient_accumulation_steps)
@@ -88,16 +149,13 @@ class Trainer(object):
         train_iterator = trange(int(self.num_train_epochs), desc="Epoch")
 
         for _ in train_iterator:
-            epoch_iterator = tqdm(self.train_dl, desc="Iteration")
+            epoch_iterator = tqdm(train_dataloader, desc="Iteration")
             for step, batch in enumerate(epoch_iterator):
                 self.model.train()
                 batch = tuple(t.to(self.device) for t in batch)  # GPU or CPU
-                print(batch[0])
-                print(batch[1])
-                print(batch[2])
                 inputs = {'input_ids': batch[0],
-                          'attention_mask': batch[0],
-                          'labels': batch[1]}
+                          'attention_mask': batch[1],
+                          'labels': batch[3]}
                 outputs = self.model(**inputs)
                 loss = outputs[0]
 

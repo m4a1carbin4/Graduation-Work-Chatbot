@@ -77,6 +77,7 @@ class BERT():
         self.bertmodel, self.vocab = get_pytorch_kobert_model()
         self.train = train
         self.test = test
+        self.model_loaded = False
         
         self.model = BERTClassifier(self.bertmodel, dr_rate=0.5).to(self.device)
         self.tokenizer = get_tokenizer()
@@ -206,5 +207,5 @@ class BERT():
             raise Exception("모델을 불러올 수 없습니다.")
         if not self.model_loaded:
             self.model_loaded = True
-            self.model.load_state_dict(torch.load(self.model_file + '.pt'))
+            self.model.load_state_dict(torch.load('koBERT_model_state_dict.pt'))
         

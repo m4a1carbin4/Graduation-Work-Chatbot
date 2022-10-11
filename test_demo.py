@@ -40,31 +40,35 @@ intent_train, intent_test = dataset.load_intent()
 
 embed = Embedder(model = Word2Vec(data_emb))
 
-#bert = BERT(intent_train,intent_test)
+bert = BERT(intent_train,intent_test)
 
 #bert.fit()
 
 #bert.train_model()
 
-#bert.load_model()
-"""
+bert.load_model()
+
 data = ['오늘의 서울 날씨 알려줘', '0']
 data = [data]
 data = pd.DataFrame(data)
-"""
 
-#result = bert.predict(data)
+result = bert.predict(data)
 
-#print(result)
+print(result)
 
 entity = EntityRecognizer(
     model=LSTM(dataset.entity_dict),
     loss=CRFLoss(dataset.entity_dict)
 )
 
-entity.fit(dataset.load_entity(embed))
+#entity.fit(dataset.load_entity(embed))
+entity._load_model()
 
-prep = dataset.load_predict("오늘 서울 날씨 알려줘", embed)
+prep = dataset.load_predict("오늘 서울 미세먼지 농도 알려줘", embed)
 entity = entity.predict(prep)
 
+entity = entity.tolist()
+
 print(entity)
+
+

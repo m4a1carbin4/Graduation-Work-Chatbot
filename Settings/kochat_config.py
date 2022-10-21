@@ -68,6 +68,7 @@ INTENT = {
     'max_grad_norm' : 1,
     'log_interval' : 200,
     'learning_rate' : 5e-5,
+    'model_file' : 'KoBERT_Intent_model',
     'model_dir' : BASE['root_dir'] + "saved{_}".format(_=_)
 }
 

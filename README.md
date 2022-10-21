@@ -39,6 +39,7 @@ pre_trained_model for intent classification :
 
 ### how to run server :
 
+download pre_trained_model and Save model to top of project directory
 run command : python Flask_API_Server.py
 
 <aside>

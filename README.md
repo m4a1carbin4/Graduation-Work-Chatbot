@@ -1,7 +1,4 @@
-# 제목 없음
-
-Created: 2022년 10월 21일 오후 9:38
-Last Edited Time: 2022년 10월 21일 오후 10:00
+# Chat-Bot AI Model And API Flask SERVER
 
 ## Graduation Chatbot AI Model and API Server Module
 

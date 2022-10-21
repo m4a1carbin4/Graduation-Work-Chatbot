@@ -2,9 +2,8 @@ from torch import Tensor
 from torch import nn
 from torchcrf import CRF
 
-from decorators import entity
-from base_loss import BaseLoss
-
+from Settings.decorators import entity
+from base.base_loss import BaseLoss
 
 @entity
 class CRFLoss(BaseLoss):

@@ -1,7 +1,7 @@
 import torch
 from torch import nn, autograd
 from torch import Tensor
-from decorators import entity
+from Settings.decorators import entity
 
 
 @entity

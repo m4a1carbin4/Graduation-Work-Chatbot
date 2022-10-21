@@ -22,8 +22,8 @@ from transformers import AdamW
 from transformers.optimization import get_cosine_schedule_with_warmup
 from sklearn.preprocessing import LabelEncoder
 
-from decorators import gensim, intent
-from baseprocessor import BaseProcessor
+from Settings.decorators import gensim, intent
+from base.baseprocessor import BaseProcessor
 
 class BERTDataset(Dataset):
     def __init__(self, dataset, sent_idx, label_idx, bert_tokenizer, max_len,
@@ -178,20 +178,6 @@ class BERT():
                     test_eval.append("2")
                 elif np.argmax(logits) == 3:
                     test_eval.append("3")
-                """
-                elif np.argmax(logits) == 4:
-                    test_eval.append("4")
-                elif np.argmax(logits) == 5:
-                    test_eval.append("5")
-                elif np.argmax(logits) == 6:
-                    test_eval.append("6")
-                elif np.argmax(logits) == 7:
-                    test_eval.append("7")
-                elif np.argmax(logits) == 8:
-                    test_eval.append("8")
-                elif np.argmax(logits) == 9:
-                    test_eval.append("9")
-                """
 
             print(">> result of input sentence :  " + test_eval[0])
 

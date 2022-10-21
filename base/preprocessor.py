@@ -10,7 +10,7 @@ import torch
 from torch import Tensor
 from konlpy.tag import Okt
 from requests import Session
-from decorators import data
+from Settings.decorators import data
 
 
 @data

@@ -13,8 +13,8 @@ from gensim.models import Word2Vec
 from gensim.models.callbacks import CallbackAny2Vec
 from torch import Tensor
 
-from decorators import gensim
-from baseprocessor import BaseProcessor
+from Settings.decorators import gensim
+from base.baseprocessor import BaseProcessor
 
 @gensim
 class Embedder(BaseProcessor):

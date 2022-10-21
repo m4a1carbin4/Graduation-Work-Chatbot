@@ -15,9 +15,9 @@ from torch.nn.parameter import Parameter
 from torch.optim import Adam
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
-from baseprocessor import BaseProcessor
-from metrics import Metrics
-from visualizer import Visualizer
+from base.baseprocessor import BaseProcessor
+from base.metrics import Metrics
+from utils.visualizer import Visualizer
 
 
 class TorchProcessor(BaseProcessor):

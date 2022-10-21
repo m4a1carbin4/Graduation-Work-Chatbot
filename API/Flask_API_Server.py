@@ -3,17 +3,17 @@
 @since 7/1/2020
 @see https://github.com/gusdnd852
 """
-from dataset import Dataset
+from data.dataset import Dataset
 from gensim.models import Word2Vec
-from decorators import gensim, intent
-from Word_embedder import Embedder
+from Settings.decorators import gensim, intent
+from Embedder.Word_embedder import Embedder
 import pandas as pd
 
-from intent_classification import BERT, BERTClassifier
+from intent.intent_classification import BERT, BERTClassifier
 
-from NER_Classifier import EntityRecognizer
-from crfloss import CRFLoss
-from NER_LSTM import LSTM
+from NER.NER_Classifier import EntityRecognizer
+from base.crfloss import CRFLoss
+from NER.NER_LSTM import LSTM
 
 from flask import Flask, request
 from flask_restx import Api

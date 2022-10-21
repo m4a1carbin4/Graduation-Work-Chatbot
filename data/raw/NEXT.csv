@@ -1,0 +1,52 @@
+question,label
+다음 보여줘,0 0
+다음,0
+2페이지 넘겨줘,S-Pcount 0
+다음내용 알려줘,0 0
+다음 넘겨줘,0 0
+다음 2장 넘겨줘,0 S-Pcount 0
+다음 3장 넘겨줘,0 S-Pcount 0
+다음 4장 넘겨줘,0 S-Pcount 0
+다음 5장 넘겨줘,0 S-Pcount 0
+다음 알려줘,0 0
+2장 다음 알려줘,S-Pcount 0 0
+3장 다음 알려줘,S-Pcount 0 0
+4장 다음 알려줘,S-Pcount 0 0
+5장 다음 알려줘,S-Pcount 0 0
+다음 레시피,0 0
+2장 다음 레시피,S-Pcount 0 0
+3장 다음 레시피,S-Pcount 0 0
+4장 다음 레시피,S-Pcount 0 0
+5장 다음 레시피,S-Pcount 0 0
+이 다음 내용 알려줘,0 0 0 0
+2장 다음 내용 알려줘,S-Pcount 0 0 0
+3장 다음 내용 알려줘,S-Pcount 0 0 0
+4장 다음 내용 알려줘,S-Pcount 0 0 0
+5장 다음 내용 알려줘,S-Pcount 0 0 0
+한장 넘겨줘,S-Pcount 0
+두장 넘겨줘,S-Pcount 0
+세장 넘겨줘,S-Pcount 0
+네장 넘겨줘,S-Pcount 0
+다섯장 넘겨줘,S-Pcount 0
+두페이지 다음,S-Pcount 0
+세페이지 다음,S-Pcount 0
+네페이지 다음,S-Pcount 0
+다섯페이지 다음,S-Pcount 0
+다음장 보여줘,0 0
+다음 내용 보여줘,0 0 0
+2장뒤 내용 보여줘,S-Pcount 0 0
+3장뒤 내용 보여줘,S-Pcount 0 0
+4장뒤 내용 보여줘,S-Pcount 0 0
+5장뒤 내용 보여줘,S-Pcount 0 0
+다음 내용 알려줘,0 0 0
+다음 페이지 보여줘,0 0 0
+다음 2페이지 보여줘,0 S-Pcount 0
+다음 3페이지 보여줘,0 S-Pcount 0
+다음 4페이지 보여줘,0 S-Pcount 0
+다음 5페이지 보여줘,0 S-Pcount 0
+다음 내용으로 넘겨줘,0 0 0
+다음 2장 뒤로 넘겨줘,0 S-Pcount 0 0
+다음 3장 뒤로 넘겨줘,0 S-Pcount 0 0
+다음 4장 뒤로 넘겨줘,0 S-Pcount 0 0
+다음 5장 뒤로 넘겨줘,0 S-Pcount 0 0
+넘겨,0

@@ -7,11 +7,11 @@ import torch
 from torch import nn
 from torch import Tensor
 
-from decorators import entity
-from base_loss import BaseLoss
-from crfloss import CRFLoss
-from masking import Masking
-from torchProcessor import TorchProcessor
+from Settings.decorators import entity
+from base.base_loss import BaseLoss
+from base.crfloss import CRFLoss
+from base.masking import Masking
+from base.torchProcessor import TorchProcessor
 
 
 @entity

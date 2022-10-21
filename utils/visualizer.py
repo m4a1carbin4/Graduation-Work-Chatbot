@@ -15,7 +15,7 @@ from pandas import DataFrame
 from sklearn.decomposition import IncrementalPCA
 from torch import Tensor
 
-from decorators import backend
+from Settings.decorators import backend
 
 
 @backend

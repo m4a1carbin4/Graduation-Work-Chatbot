@@ -2,7 +2,7 @@ import os
 
 import pandas as pd
 from pandas import DataFrame, Series
-from decorators import data
+from Settings.decorators import data
 
 
 @data

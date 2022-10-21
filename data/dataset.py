@@ -10,10 +10,10 @@ from torch import Tensor
 from torch.utils.data import TensorDataset, DataLoader
 from transformers import BertTokenizer
 
-from decorators import data
-from preprocessor import Preprocessor
-from baseprocessor import BaseProcessor
-from organizer import Organizer
+from Settings.decorators import data
+from base.preprocessor import Preprocessor
+from base.baseprocessor import BaseProcessor
+from data.organizer import Organizer
 
 @data
 class Dataset:

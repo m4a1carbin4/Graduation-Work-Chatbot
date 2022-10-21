@@ -3,7 +3,7 @@ from abc import abstractmethod
 from torch import Tensor
 from torch import nn
 
-from decorators import loss
+from Settings.decorators import loss
 
 
 @loss

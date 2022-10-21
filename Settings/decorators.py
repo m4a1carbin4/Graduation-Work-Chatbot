@@ -2,7 +2,7 @@ import os
 
 import torch
 from torch import Tensor, nn
-import kochat_config as config
+import Settings.kochat_config as config
 
 
 def backend(cls):

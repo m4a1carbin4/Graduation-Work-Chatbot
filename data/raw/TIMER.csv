@@ -1,0 +1,51 @@
+question,label
+타이머 세팅해줘,0 0
+타이머 1분 세팅해줘,0 S-TIME 0
+타이머 2분 세팅해줘,0 S-TIME 0
+타이머 3분 세팅해줘,0 S-TIME 0
+타이머 4분 세팅해줘,0 S-TIME 0
+타이머,0
+1분 타이머,S-TIME 0
+1분 30초 타이머,B-TIME E-TIME 0
+2분 타이머,S-TIME 0
+2분 30초 타이머,B-TIME E-TIME 0
+3분 타이머,S-TIME 0
+3분 30초 타이머,B-TIME E-TIME 0
+4분 타이머,S-TIME 0
+4분 30초 타이머,B-TIME E-TIME 0
+타이머 설정해줘,0 0
+타이머 1분 설정해줘,0 S-TIME 0
+타이머 1분 30초 설정해줘,0 B-TIME E-TIME 0
+타이머 2분 설정해줘,0 S-TIME 0
+타이머 2분 30초 설정해줘,0 B-TIME E-TIME 0
+타이머 3분 설정해줘,0 S-TIME 0
+타이머 3분 30초 설정해줘,0 B-TIME E-TIME 0
+타이머 4분 설정해줘,0 S-TIME 0
+타이머 4분 30초 설정해줘,0 B-TIME E-TIME 0
+알람 설정해줘,0 0
+1분 알람 설정해줘,S-TIME 0 0
+1분 30초 알람 설정해줘,B-TIME E-TIME 0 0
+2분 알람 설정해줘,S-TIME 0 0
+2분 30초 알람 설정해줘,B-TIME E-TIME 0 0
+3분 알람 설정해줘,S-TIME 0 0
+3분 30초 알람 설정해줘,B-TIME E-TIME 0 0
+4분 알람 설정해줘,S-TIME 0 0
+4분 30초 알람 설정해줘,B-TIME E-TIME 0 0
+알람 맞춰줘,0 0
+1분 알람 맞춰줘,S-TIME 0 0
+1분 30초 알람 맞춰줘,B-TIME E-TIME 0 0
+2분 알람 맞춰줘,S-TIME 0 0
+2분 30초 알람 맞춰줘,B-TIME E-TIME 0 0
+3분 알람 맞춰줘,S-TIME 0 0
+3분 30초 알람 맞춰줘,B-TIME E-TIME 0 0
+4분 알람 맞춰줘,S-TIME 0 0
+4분 30초 알람 맞춰줘,B-TIME E-TIME 0 0
+알람,0
+1분 알람,S-TIME 0
+1분 30초 알림,B-TIME E-TIME 0
+2분 알림,S-TIME 0
+2분 30초 알림,B-TIME E-TIME 0
+3분 알림,S-TIME 0
+3분 30초 알림,B-TIME E-TIME 0
+4분 알림,S-TIME 0
+4분 30초 알림,B-TIME E-TIME 0

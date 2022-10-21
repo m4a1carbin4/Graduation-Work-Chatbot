@@ -31,10 +31,9 @@ DATA = {
     'ood_data_dir': BASE['root_dir'] + "data{_}ood{_}".format(_=_),  # out of distribution 데이터셋
     'intent_data_dir': BASE['root_dir'] + "data{_}intent_data.csv".format(_=_),  # 생성된 인텐트 데이터 파일 경로
     'entity_data_dir': BASE['root_dir'] + "data{_}entity_data.csv".format(_=_),  # 생성된 엔티티 데이터 파일 경로
-
-    'NER_categories': ['DATE', 'LOCATION', 'RESTAURANT', 'PLACE'],  # 사용자 정의 태그
+    'NER_categories': ['Pcount','TIME','NOW','TOTAL'],  # 사용자 정의 태그
     'NER_tagging': ['B', 'E', 'I', 'S'],  # NER의 BEGIN, END, INSIDE, SINGLE 태그
-    'NER_outside': 'O',  # NER의 O태그 (Outside를 의미)
+    'NER_outside': '0',  # NER의 O태그 (Outside를 의미)
 }
 
 PROC = {
@@ -62,17 +61,14 @@ GENSIM = {
 }
 
 INTENT = {
-
     'max_len' : 128, # 해당 길이를 초과하는 단어에 대해선 bert가 학습하지 않음
     'batch_size' : 128,
     'warmup_ratio' : 0.1,
-    'num_epochs' : 5,
+    'num_epochs' : 20,
     'max_grad_norm' : 1,
     'log_interval' : 200,
     'learning_rate' : 5e-5,
-
     'model_dir' : BASE['root_dir'] + "saved{_}".format(_=_)
-
 }
 
 ENTITY = {
@@ -88,11 +84,4 @@ ENTITY = {
     'lr_scheduler_patience': 10,  # 러닝레이트 스케줄러 감소 에폭
     'lr_scheduler_min_lr': 1e-12,  # 최소 러닝레이트
     'lr_scheduler_warm_up': 100  # 러닝레이트 감소 시작시점
-}
-
-API = {
-    'request_chat_url_pattern': 'request_chat',  # request_chat 기능 url pattern
-    'fill_slot_url_pattern': 'fill_slot',  # fill_slot 기능 url pattern
-    'get_intent_url_pattern': 'get_intent',  # get_intent 기능 url pattern
-    'get_entity_url_pattern': 'get_entity'  # get_entity 기능 url pattern
 }

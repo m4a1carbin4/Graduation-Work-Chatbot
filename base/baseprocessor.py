@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from typing import Any
-from decorators import proc
+from Settings.decorators import proc
 
 
 @proc

@@ -3,21 +3,15 @@
 @since 7/1/2020
 @see https://github.com/gusdnd852
 """
-from dataset import Dataset
+from data.dataset import Dataset
 from gensim.models import Word2Vec
-from decorators import gensim
-from Word_embedder import Embedder
+from Settings.decorators import gensim
+from Embedder.Word_embedder import Embedder
 import pandas as pd
-
-from intent_classification import BERT, BERTClassifier
-
-from NER_Classifier import EntityRecognizer
-from crfloss import CRFLoss
-from NER_LSTM import LSTM
-
-
-# from scenario import dust, weather, travel, restaurant
-# 에러 나면 이걸로 실행해보세요!
+from intent.intent_classification import BERT, BERTClassifier
+from NER.NER_Classifier import EntityRecognizer
+from base.crfloss import CRFLoss
+from NER.NER_LSTM import LSTM
 
 @gensim
 class Word2Vec(Word2Vec):
@@ -42,11 +36,8 @@ embed = Embedder(model = Word2Vec(data_emb))
 
 bert = BERT(intent_train,intent_test)
 
-#bert.fit()
-
-#bert.train_model()
-
-bert.load_model()
+bert.data_set()
+bert.train_model()
 
 data = ['오늘의 서울 날씨 알려줘', '0']
 data = [data]
@@ -56,19 +47,20 @@ result = bert.predict(data)
 
 print(result)
 
+"""
 entity = EntityRecognizer(
     model=LSTM(dataset.entity_dict),
     loss=CRFLoss(dataset.entity_dict)
 )
 
-#entity.fit(dataset.load_entity(embed))
-entity._load_model()
+entity.fit(dataset.load_entity(embed))
+#entity._load_model()
 
-prep = dataset.load_predict("오늘 서울 미세먼지 농도 알려줘", embed)
+prep = dataset.load_predict("타이머 3분 맞춰줘", embed)
 entity = entity.predict(prep)
 
-entity = entity.tolist()
+#entity = entity.tolist()
 
 print(entity)
-
+"""
 

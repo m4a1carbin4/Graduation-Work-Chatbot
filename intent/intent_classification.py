@@ -193,5 +193,5 @@ class BERT():
             raise Exception("모델을 불러올 수 없습니다.")
         if not self.model_loaded:
             self.model_loaded = True
-            self.model.load_state_dict(torch.load('koBERT_model_state_dict.pt'))
+            self.model.load_state_dict(torch.load(self.model_file + '.pt'))
         

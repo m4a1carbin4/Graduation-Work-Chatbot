@@ -47,10 +47,10 @@ embed = Embedder(model = Word2Vec(data_emb))
 bert = BERT(intent_train,intent_test)
 bert.load_model()
 
-entity = EntityRecognizer(
+"""entity = EntityRecognizer(
     model=LSTM(dataset.entity_dict),
     loss=CRFLoss(dataset.entity_dict))
-entity._load_model()
+entity._load_model()"""
 
 @api.route('/chat_request')
 class request_chat(Resource):
@@ -69,16 +69,16 @@ class request_chat(Resource):
         intent_result = bert.predict(data)
 
         print(intent_result)
-
+        """
         prep = dataset.load_predict(chatString, embed)
         entity_result = entity.predict(prep)
 
         print(entity_result)
-
+        """
         return {
             'chatString':chatString,
-            'intent':intent_result,
-            'entity':entity_result
+            'intent':intent_result
+            #'entity':entity_result
         }
 
 if __name__ == "__main__":

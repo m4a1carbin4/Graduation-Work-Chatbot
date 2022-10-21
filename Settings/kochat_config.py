@@ -62,7 +62,7 @@ GENSIM = {
 
 INTENT = {
     'max_len' : 128, # 해당 길이를 초과하는 단어에 대해선 bert가 학습하지 않음
-    'batch_size' : 128,
+    'batch_size' : 64,
     'warmup_ratio' : 0.1,
     'num_epochs' : 20,
     'max_grad_norm' : 1,

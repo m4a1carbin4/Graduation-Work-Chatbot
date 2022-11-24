@@ -34,6 +34,7 @@ intent_train, intent_test = dataset.load_intent()
 
 embed = Embedder(model = Word2Vec(data_emb))
 
+"""
 bert = BERT(intent_train,intent_test)
 
 bert.data_set()
@@ -48,13 +49,14 @@ result = bert.predict(data)
 print(result)
 
 """
+
 entity = EntityRecognizer(
     model=LSTM(dataset.entity_dict),
     loss=CRFLoss(dataset.entity_dict)
 )
 
 entity.fit(dataset.load_entity(embed))
-#entity._load_model()
+entity._save_model()
 
 prep = dataset.load_predict("타이머 3분 맞춰줘", embed)
 entity = entity.predict(prep)
@@ -62,5 +64,5 @@ entity = entity.predict(prep)
 #entity = entity.tolist()
 
 print(entity)
-"""
+
 

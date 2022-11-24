@@ -66,15 +66,16 @@ class TorchProcessor(BaseProcessor):
             self.ood_train = dataset[2]
             self.ood_test = dataset[3]
 
+        print(self.epochs)
         for i in range(self.epochs + 1):
             eta = time()
             loss, label, predict = self._train_epoch(i)
-            self.__visualize(loss, label, predict, mode='train')
+            #self.__visualize(loss, label, predict, mode='train')
             # training epoch + visualization
 
             if test:
                 loss, label, predict = self._test_epoch(i)
-                self.__visualize(loss, label, predict, mode='test')
+                #self.__visualize(loss, label, predict, mode='test')
                 # testing epoch + visualization
 
             if i > self.lr_scheduler_warm_up:

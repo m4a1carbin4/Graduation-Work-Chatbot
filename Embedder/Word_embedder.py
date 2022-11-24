@@ -3,50 +3,85 @@
 @when : 5/9/2020
 @homepage : https://github.com/gusdnd852
 """
-from gc import callbacks
 import os
 from time import time
 
 import torch
 import numpy as np
-from gensim.models import Word2Vec
+from gensim.models.fasttext import FastText
 from gensim.models.callbacks import CallbackAny2Vec
 from torch import Tensor
 
 from Settings.decorators import gensim
 from base.baseprocessor import BaseProcessor
 
-@gensim
-class Embedder(BaseProcessor):
-    def __init__(self, model: Word2Vec):
-        super().__init__(model)
-        self._save_model()
 
+@gensim
+class GensimEmbedder(BaseProcessor):
+
+    def __init__(self, model: FastText):
+        """
+        Gensim 모델의 Training, Inference
+        등을 관장하는 프로세서 클래스입니다.
+        :param model: Gensim 모델을 입력해야합니다.
+        """
+        super().__init__(model)
         self.callback = self.GensimLogger(
             name=self.__class__.__name__,
             logging=self._print
         )  # 학습 진행사항 출력 콜백
 
-    def fit(self, dataset : list):
-        raise Exception("Word2Vec fit isn't support")
+    def fit(self, dataset: list):
+        """
+        데이터셋으로 Vocabulary를 생성하고
+        모델을 학습 및 저장시킵니다.
+        :param dataset: 데이터셋
+        :return: 학습된 모델을 리턴합니다.
+        """
 
-    def predict(self, sequence : str) -> Tensor:
+        self.model.build_vocab(dataset)
+        self.model.train(
+            sentences=dataset,
+            total_examples=self.model.corpus_count,
+            epochs=self.model.epochs + 1,
+            callbacks=[self.callback]
+        )
+
+        self._save_model()
+
+    def predict(self, sequence: str) -> Tensor:
+        """
+        사용자의 입력을 임베딩합니다.
+        :param sequence: 입력 시퀀스
+        :return: 임베딩 벡터 반환
+        """
+
         self._load_model()
         return self._forward(self.model, sequence)
-    
+
     def _load_model(self):
+        """
+        저장된 모델을 불러옵니다.
+        """
+
         if not os.path.exists(self.model_dir):
             raise Exception("모델을 불러올 수 없습니다.")
+
         if not self.model_loaded:
             self.model_loaded = True
             self.model = self.model.__class__.load(self.model_file + '.gensim')
-    
+
     def _save_model(self):
+        """
+        모델을 저장장치에 저장합니다.
+        """
+
         if not os.path.exists(self.model_dir):
             os.makedirs(self.model_dir)
-        self.model.save(self.model_file +'.gensim')
-    
-    def _forward(self, model, sequence: str) ->Tensor:
+
+        self.model.save(self.model_file + '.gensim')
+
+    def _forward(self, model, sequence: str) -> Tensor:
         sentence_vector = []
 
         for word in sequence:
@@ -54,12 +89,11 @@ class Embedder(BaseProcessor):
                 word_vector = torch.tensor(model.wv[word])
             except KeyError as _:
                 word_vector = torch.ones(self.vector_size) * self.OOV
-            
+
             sentence_vector.append(word_vector.unsqueeze(dim=0))
-        
+
         return torch.cat(sentence_vector, dim=0)
 
-    #kochat Logger
     class GensimLogger(CallbackAny2Vec):
 
         def __init__(self, name: str, logging):
@@ -73,14 +107,14 @@ class Embedder(BaseProcessor):
             self.name = name
             self.logging = logging
 
-        def on_epoch_begin(self, model: Word2Vec):
+        def on_epoch_begin(self, model: FastText):
             """
             epoch 시작시에 시간 측정을 시작합니다.
             :param model: 학습할 모델
             """
             self.eta = time()
 
-        def on_epoch_end(self, model: Word2Vec):
+        def on_epoch_end(self, model: FastText):
             """
             epoch 종료시에 걸린 시간을 체크하여 출력합니다.
             :param model: 학습할 모델

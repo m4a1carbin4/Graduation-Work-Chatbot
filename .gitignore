@@ -6,3 +6,4 @@ venv/
 saved/
 koBERT_test.pt
 KoBERT_model_state_dict.pt
+KoBERT_Intent_model.pt

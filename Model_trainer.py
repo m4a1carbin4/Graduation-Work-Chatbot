@@ -33,7 +33,7 @@ class FastText(FastText):
                          min_count=self.min_count,
                          iter=self.iter)
 
-dataset = Dataset()
+dataset = Dataset(False)
 
 data_emb = dataset.load_embed()
 
@@ -42,6 +42,7 @@ intent_train, intent_test = dataset.load_intent()
 embed = GensimEmbedder(model = FastText())
 
 embed.fit(data_emb)
+
 
 
 """
@@ -74,6 +75,6 @@ entity.fit(dataset.load_entity(embed)) # ram error?
 entity._save_model()
 
 prep = dataset.load_predict('타이머 3분 설정해줘', embed)
-entity = entity.predict(prep)
+entity_result = entity.predict(prep)
 
-print(entity)
+print(entity_result)

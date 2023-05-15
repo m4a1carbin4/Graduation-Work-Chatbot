@@ -5,7 +5,7 @@
 """
 from data.dataset import Dataset
 from gensim.models import FastText
-from Settings.decorators import gensim, intent
+from Settings.decorators import gensim
 from Embedder.Word_embedder import GensimEmbedder
 import pandas as pd
 
@@ -18,7 +18,6 @@ from NER.NER_LSTM import LSTM
 from flask import Flask, request
 from flask_restx import Api
 from flask_restx import Resource
-import json
 
 @gensim
 class FastText(FastText):
@@ -70,11 +69,9 @@ class request_chat(Resource):
         data = pd.DataFrame(data)
 
         intent_result = bert.predict(data)
-
         print(intent_result)
         
         text = dataset.prep.tokenize(chatString, train=False)
-
         prep = dataset.load_predict(chatString, embed)
         entity_result = entity.predict(prep)
 
@@ -83,7 +80,7 @@ class request_chat(Resource):
         return {
             'chatString':chatString,
             'intent':intent_result,
-            'entity':entity_result,
+            'append':entity_result,
             'text':text
         }
 

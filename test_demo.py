@@ -13,6 +13,9 @@ from NER.NER_Classifier import EntityRecognizer
 from base.crfloss import CRFLoss
 from NER.NER_LSTM import LSTM
 
+import sys
+sys.path.append("./")
+
 @gensim
 class FastText(FastText):
 
@@ -36,20 +39,31 @@ intent_train, intent_test = dataset.load_intent()
 embed = GensimEmbedder(model = FastText())
 embed._load_model()
 
+bert = BERT(intent_train,intent_test)
+bert.load_model()
+
 entity = EntityRecognizer(
     model=LSTM(dataset.entity_dict),
     loss=CRFLoss(dataset.entity_dict)
 )
-
 entity._load_model()
 
-chatString="타이머 1분 설정해줘"
+chatString="1분 30초 타이머"
 
+data = [chatString, '0']
+data = [data]
+data = pd.DataFrame(data)
+
+intent_result = bert.predict(data)
+
+text = dataset.prep.tokenize(chatString, train=False)
 prep = dataset.load_predict(chatString, embed)
 entity_result = entity.predict(prep)
 
 #entity = entity.tolist()
 
+print(intent_result)
 print(entity_result)
+print(text)
 
 

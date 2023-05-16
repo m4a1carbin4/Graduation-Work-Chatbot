@@ -1,83 +1,4 @@
 question,label
-현재 페이지 반복해줘,REPEAT
-지금 내용 다시 말해줘,REPEAT
-현재 내용 다시 말해줘,REPEAT
-다시 말해줄래,REPEAT
-다시,REPEAT
-다시 한번 들려줘,REPEAT
-한번만 더 들려줘,REPEAT
-한번 더 말해줘,REPEAT
-다시 한번 말해줘,REPEAT
-지금 내용 다시,REPEAT
-지금 내용 다시 들려줘,REPEAT
-현재 내용 다시 들려줘,REPEAT
-다시 한번 말해줘,REPEAT
-현재 레시피 다시 말해줘,REPEAT
-지금 레시피 다시 말해줘,REPEAT
-전체 레시피 다시 말해줘,REPEAT
-레시피 처음부터 다시,REPEAT
-처음부터 다시 말해줘,REPEAT
-처음부터 다시 들려줘,REPEAT
-처음부터 다시,REPEAT
-시작부터 다시 들려줘,REPEAT
-처음으로 돌아가줘,REPEAT
-처음 부분으로 돌아가줘,REPEAT
-시작 부분으로 돌아가줘,REPEAT
-처음부터 다시 시작해줘,REPEAT
-시작부터 다시 시작해줘,REPEAT
-레시피 다시 시작해줘,REPEAT
-첫부분 부터 다시 말해줘,REPEAT
-시작부터 다시 말해줘,REPEAT
-타이머 세팅해줘,TIMER
-타이머 1분 세팅해줘,TIMER
-타이머 2분 세팅해줘,TIMER
-타이머 3분 세팅해줘,TIMER
-타이머 4분 세팅해줘,TIMER
-타이머,TIMER
-1분 타이머,TIMER
-1분 30초 타이머,TIMER
-2분 타이머,TIMER
-2분 30초 타이머,TIMER
-3분 타이머,TIMER
-3분 30초 타이머,TIMER
-4분 타이머,TIMER
-4분 30초 타이머,TIMER
-타이머 설정해줘,TIMER
-타이머 1분 설정해줘,TIMER
-타이머 1분 30초 설정해줘,TIMER
-타이머 2분 설정해줘,TIMER
-타이머 2분 30초 설정해줘,TIMER
-타이머 3분 설정해줘,TIMER
-타이머 3분 30초 설정해줘,TIMER
-타이머 4분 설정해줘,TIMER
-타이머 4분 30초 설정해줘,TIMER
-알람 설정해줘,TIMER
-1분 알람 설정해줘,TIMER
-1분 30초 알람 설정해줘,TIMER
-2분 알람 설정해줘,TIMER
-2분 30초 알람 설정해줘,TIMER
-3분 알람 설정해줘,TIMER
-3분 30초 알람 설정해줘,TIMER
-4분 알람 설정해줘,TIMER
-4분 30초 알람 설정해줘,TIMER
-알람 맞춰줘,TIMER
-1분 알람 맞춰줘,TIMER
-1분 30초 알람 맞춰줘,TIMER
-2분 알람 맞춰줘,TIMER
-2분 30초 알람 맞춰줘,TIMER
-3분 알람 맞춰줘,TIMER
-3분 30초 알람 맞춰줘,TIMER
-4분 알람 맞춰줘,TIMER
-4분 30초 알람 맞춰줘,TIMER
-알람,TIMER
-1분 알람,TIMER
-1분 30초 알림,TIMER
-2분 알림,TIMER
-2분 30초 알림,TIMER
-3분 알림,TIMER
-3분 30초 알림,TIMER
-4분 알림,TIMER
-4분 30초 알림,TIMER
 이전 보여줘,BEFORE
 이전,BEFORE
 2페이지 앞으로,BEFORE
@@ -129,6 +50,85 @@ question,label
 다음 4장 앞으로 넘겨줘,BEFORE
 다음 5장 앞으로 넘겨줘,BEFORE
 앞으로,BEFORE
+타이머 세팅해줘,TIMER
+타이머 1분 세팅해줘,TIMER
+타이머 2분 세팅해줘,TIMER
+타이머 3분 세팅해줘,TIMER
+타이머 4분 세팅해줘,TIMER
+타이머,TIMER
+1분 타이머,TIMER
+1분 30초 타이머,TIMER
+2분 타이머,TIMER
+2분 30초 타이머,TIMER
+3분 타이머,TIMER
+3분 30초 타이머,TIMER
+4분 타이머,TIMER
+4분 30초 타이머,TIMER
+타이머 설정해줘,TIMER
+타이머 1분 설정해줘,TIMER
+타이머 1분 30초 설정해줘,TIMER
+타이머 2분 설정해줘,TIMER
+타이머 2분 30초 설정해줘,TIMER
+타이머 3분 설정해줘,TIMER
+타이머 3분 30초 설정해줘,TIMER
+타이머 4분 설정해줘,TIMER
+타이머 4분 30초 설정해줘,TIMER
+알람 설정해줘,TIMER
+1분 알람 설정해줘,TIMER
+1분 30초 알람 설정해줘,TIMER
+2분 알람 설정해줘,TIMER
+2분 30초 알람 설정해줘,TIMER
+3분 알람 설정해줘,TIMER
+3분 30초 알람 설정해줘,TIMER
+4분 알람 설정해줘,TIMER
+4분 30초 알람 설정해줘,TIMER
+알람 맞춰줘,TIMER
+1분 알람 맞춰줘,TIMER
+1분 30초 알람 맞춰줘,TIMER
+2분 알람 맞춰줘,TIMER
+2분 30초 알람 맞춰줘,TIMER
+3분 알람 맞춰줘,TIMER
+3분 30초 알람 맞춰줘,TIMER
+4분 알람 맞춰줘,TIMER
+4분 30초 알람 맞춰줘,TIMER
+알람,TIMER
+1분 알람,TIMER
+1분 30초 알림,TIMER
+2분 알림,TIMER
+2분 30초 알림,TIMER
+3분 알림,TIMER
+3분 30초 알림,TIMER
+4분 알림,TIMER
+4분 30초 알림,TIMER
+현재 페이지 반복해줘,REPEAT
+지금 내용 다시 말해줘,REPEAT
+현재 내용 다시 말해줘,REPEAT
+다시 말해줄래,REPEAT
+다시,REPEAT
+다시 한번 들려줘,REPEAT
+한번만 더 들려줘,REPEAT
+한번 더 말해줘,REPEAT
+다시 한번 말해줘,REPEAT
+지금 내용 다시,REPEAT
+지금 내용 다시 들려줘,REPEAT
+현재 내용 다시 들려줘,REPEAT
+다시 한번 말해줘,REPEAT
+현재 레시피 다시 말해줘,REPEAT
+지금 레시피 다시 말해줘,REPEAT
+전체 레시피 다시 말해줘,REPEAT
+레시피 처음부터 다시,REPEAT
+처음부터 다시 말해줘,REPEAT
+처음부터 다시 들려줘,REPEAT
+처음부터 다시,REPEAT
+시작부터 다시 들려줘,REPEAT
+처음으로 돌아가줘,REPEAT
+처음 부분으로 돌아가줘,REPEAT
+시작 부분으로 돌아가줘,REPEAT
+처음부터 다시 시작해줘,REPEAT
+시작부터 다시 시작해줘,REPEAT
+레시피 다시 시작해줘,REPEAT
+첫부분 부터 다시 말해줘,REPEAT
+시작부터 다시 말해줘,REPEAT
 다음 보여줘,NEXT
 다음,NEXT
 2페이지 넘겨줘,NEXT

@@ -20,10 +20,8 @@ from kobert.pytorch_kobert import get_pytorch_kobert_model
 
 from transformers import AdamW
 from transformers.optimization import get_cosine_schedule_with_warmup
-from sklearn.preprocessing import LabelEncoder
 
-from Settings.decorators import gensim, intent
-from base.baseprocessor import BaseProcessor
+from Settings.decorators import intent
 
 class BERTDataset(Dataset):
     def __init__(self, dataset, sent_idx, label_idx, bert_tokenizer, max_len,

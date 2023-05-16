@@ -15,7 +15,6 @@ from NER.NER_Classifier import EntityRecognizer
 from base.crfloss import CRFLoss
 from NER.NER_LSTM import LSTM
 
-
 # from scenario import dust, weather, travel, restaurant
 # 에러 나면 이걸로 실행해보세요!
 
@@ -32,6 +31,7 @@ class FastText(FastText):
                          workers=self.workers,
                          min_count=self.min_count,
                          iter=self.iter)
+
 
 dataset = Dataset(False)
 
@@ -68,7 +68,7 @@ print(dataset.entity_dict)
 entity.fit(dataset.load_entity(embed)) # ram error?
 entity._save_model()
 
-prep = dataset.load_predict('타이머 3분 설정해줘', embed)
+prep = dataset.load_predict('처음부터 다시 들려줘', embed)
 entity_result = entity.predict(prep)
 
 print(entity_result)

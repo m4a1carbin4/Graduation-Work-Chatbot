@@ -12,14 +12,12 @@ import json
 #Load Data From File (.tsv)
 df = pd.read_csv('category_tsv.tsv',delimiter='\t')
 
-#TF-IDF 불용어 제거
+#TF-IDF 불용어 제거 + NaN 처리 + tfidf matrix 생성
 tfidf = TfidfVectorizer(stop_words='english')
-# Replace NaN with an empty string
 df['food_ex'] = df['food_ex'].fillna('')
-#  tfidf matrix 만든다
 tfidf_matrix = tfidf.fit_transform(df['food_ex'])
 
-#linear_kernel 한 후 cosine similarity 계산
+#linear_kernel 처리 후 cosine similarity 계산
 cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
 
 # index와 food title의 역방향 matrix 만들기

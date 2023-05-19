@@ -177,7 +177,10 @@ def get_recommendations(title,request_num,cosine_sim,indices):
 
 def recommend_recipe(df_svd_preds, user_id, recipe_df, rating_df, num_recommendations=3):
 
-    user_row_number = user_id - 1
+    user_row_number = df_svd_preds.index[df_svd_preds['사용자uid'] == user_id].tolist()[0]
+
+    df_svd_preds = df_svd_preds.drop(columns='사용자uid')
+
     sorted_user_predictions = df_svd_preds.iloc[user_row_number].sort_values(ascending=False)
     user_data = rating_df[rating_df.사용자id == user_id]
     
@@ -185,7 +188,6 @@ def recommend_recipe(df_svd_preds, user_id, recipe_df, rating_df, num_recommenda
     recommendations = recipe_df[~recipe_df['레시피id'].isin(user_history['레시피id'])]
     recommendations = recommendations.merge( pd.DataFrame(sorted_user_predictions).reset_index(), on = '레시피id')
 
-    print(recommendations)
     recommendations = recommendations.rename(columns = {user_row_number: 'Predictions'}).sort_values('Predictions', ascending = False).iloc[:num_recommendations, :]
     
     recommendations = print_predict(recommendations)                  
@@ -198,7 +200,7 @@ api = Api(app)
 
 #Load Data From File
 df_recipe = pd.read_csv('recipe_list.csv')
-df_rating = pd.read_csv('user_rating.csv', encoding='cp949')
+df_rating = pd.read_csv('user_rating.csv')
 df_recipe.head()
 
 recipe_rating_matrix = df_rating.pivot(
@@ -206,6 +208,8 @@ recipe_rating_matrix = df_rating.pivot(
     columns='레시피id',
     values='평점'
 ).fillna(0)
+
+rating_indexs = recipe_rating_matrix.index
 
 rating_columns = recipe_rating_matrix.columns
 
@@ -221,6 +225,8 @@ result = factorizer.get_complete_matrix()
 df = pd.DataFrame(result,columns= rating_columns)
 
 df.columns.name="레시피id"
+
+df.insert(0,'사용자uid',rating_indexs)
 
 #TF-IDF 불용어 제거
 tfidf = TfidfVectorizer(stop_words='english')
@@ -247,8 +253,6 @@ count_matrix = count.fit_transform(df_new2['soup'])
 
 # 다른 cosine_similarity를 구해준다, 이것은 category 에 대한 matrix
 cosine_sim2 = cosine_similarity(count_matrix, count_matrix)
-
-print(cosine_sim2)
 
 df_new1 = df_new1.reset_index()
 indices_c = pd.Series(df_new1.index, index=df_new1['레시피id'])
